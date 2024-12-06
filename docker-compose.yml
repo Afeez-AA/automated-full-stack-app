@@ -89,7 +89,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       - "--api"
-      - "--certificatesresolvers.letsencryptresolver.acme.email=my_email"
+      - "--certificatesresolvers.letsencryptresolver.acme.email=afeezadeboyee@gmail.com"
       - "--certificatesresolvers.letsencryptresolver.acme.storage=/acme.json"
       - "--certificatesresolvers.letsencryptresolver.acme.tlschallenge=true"
       - "--accesslog=true"
