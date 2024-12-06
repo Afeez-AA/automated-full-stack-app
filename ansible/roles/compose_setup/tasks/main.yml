@@ -1,0 +1,38 @@
+---
+- name: Clone the repository
+  git:
+    repo: 'https://github.com/Afeez-AA/automated-full-stack-app.git'
+    dest: '/opt/automated-full-stack-app'
+    version: main
+
+- name: Bring up the application stack
+  command: docker-compose up -d
+  args:
+    chdir: "/opt/automated-full-stack-app"
+
+- name: Bring up the monitoring stack
+  command: docker-compose -f monitoring-stack.yml up -d
+  args:
+    chdir: "/opt/automated-full-stack-app"
+
+- name: Check if the data folder exists
+  stat:
+    path: "/opt/automated-full-stack-app/data"
+  register: data_folder
+
+- name: Ensure Loki data folder has the correct ownership and permissions
+  block:
+    - name: Change ownership of data folder for Loki
+      command: chown -R 10001:10001 ./data
+      args:
+        chdir: '/opt/automated-full-stack-app'
+
+    - name: Set permissions for the data folder
+      command: chmod -R 755 ./data
+      args:
+        chdir: '/opt/automated-full-stack-app'
+  when: data_folder.stat.exists
+
+- name: Restart Loki container
+  command: docker restart loki
+  when: data_folder.stat.exists

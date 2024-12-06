@@ -23,5 +23,3 @@ openapi.json
 *.njsproj
 *.sln
 *.sw?
-
-.env

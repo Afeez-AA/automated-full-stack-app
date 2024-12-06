@@ -1,0 +1,12 @@
+---
+- name: Ensure the Traefik directory exists
+  file:
+    path: "/opt/traefik"
+    state: directory
+    mode: '0755'
+
+- name: Create acme.json with proper permissions
+  file:
+    path: "/opt/traefik/acme.json"
+    state: touch
+    mode: '0600'

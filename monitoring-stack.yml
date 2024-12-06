@@ -4,7 +4,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     environment:
-      - GF_SERVER_DOMAIN=domain_name
+      - GF_SERVER_DOMAIN=afeezadeboye.site
       - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
       - GF_AUTH_PROXY_ENABLED=false
@@ -27,12 +27,12 @@ services:
       # HTTP Service
       - traefik.http.services.grafana.loadbalancer.server.port=3000 # important
       # HTTP Router
-      - traefik.http.routers.grafana-http.rule=((Host(`domain_name`) || Host(`www.domain_name`)) && PathPrefix(`/grafana`))
+      - traefik.http.routers.grafana-http.rule=((Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`)) && PathPrefix(`/grafana`))
       - traefik.http.routers.grafana-http.entrypoints=web
       # HTTP to HTTPS redirect
       - traefik.http.routers.grafana-https.middlewares=www-to-non-www
       # HTTPS Router
-      - traefik.http.routers.grafana-https.rule=((Host(`domain_name`) || Host(`www.domain_name`)) && PathPrefix(`/grafana`))
+      - traefik.http.routers.grafana-https.rule=((Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`)) && PathPrefix(`/grafana`))
       - traefik.http.routers.grafana-https.entrypoints=websecure
       - traefik.http.routers.grafana-https.tls.certresolver=letsencryptresolver
       - traefik.http.routers.grafana-https.service=grafana # optional
@@ -59,12 +59,12 @@ services:
       # HTTP Service
       - traefik.http.services.prometheus.loadbalancer.server.port=9090 # important
       # HTTP Router
-      - traefik.http.routers.prometheus-http.rule=((Host(`domain_name`) || Host(`www.domain_name`)) && PathPrefix(`/prometheus`))
+      - traefik.http.routers.prometheus-http.rule=((Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`)) && PathPrefix(`/prometheus`))
       - traefik.http.routers.prometheus-http.entrypoints=web
       # www to non-www redirect
       - traefik.http.routers.prometheus-https.middlewares=www-to-non-www
       # HTTPS Router
-      - traefik.http.routers.prometheus-https.rule=((Host(`domain_name`) || Host(`www.domain_name`)) && PathPrefix(`/prometheus`))
+      - traefik.http.routers.prometheus-https.rule=((Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`)) && PathPrefix(`/prometheus`))
       - traefik.http.routers.prometheus-https.entrypoints=websecure
       - traefik.http.routers.prometheus-https.tls.certresolver=letsencryptresolver
       - traefik.http.routers.prometheus-https.service=prometheus # optional
