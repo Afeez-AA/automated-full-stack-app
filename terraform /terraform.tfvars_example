@@ -12,7 +12,7 @@ grafana_domain    = "domain_name/prometheus"
 prometheus_domain = "domain_name/grafana"
 
 
-cert_email       = "valid email" # 
-private_key_path = "./key_name" his will be created in the terraform directory
+cert_email       = "valid email" 
+private_key_path = "./key_name" # This should also be the keypair name 
 app_dir = "/opt/automated-full-stack-app"
 repo = "https://github.com/Afeez-AA/automated-full-stack-app.git"

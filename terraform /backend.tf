@@ -42,7 +42,7 @@ terraform {
     dynamodb_table = "devops-dojo-az01-lock"
     encrypt        = true
   }
-  
+
   required_version = ">=0.13.0"
   required_providers {
     aws = {

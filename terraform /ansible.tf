@@ -32,8 +32,8 @@ resource "null_resource" "run_ansible" {
     db_domain       = var.db_domain,
     traefik_domain  = var.traefik_domain,
     cert_email      = var.cert_email,
-    repo = var.repo,
-    app_dir = var.app_dir
+    repo            = var.repo,
+    app_dir         = var.app_dir
 
 })}'
     EOT
