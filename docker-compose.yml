@@ -106,7 +106,7 @@ services:
     labels:
       - "traefik.enable=true"
       # HTTP Router
-      - "traefik.http.routers.traefik-http.rule=Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`)"
+      - "traefik.http.routers.traefik-http.rule=Host(`proxy.afeezadeboye.site`) || Host(`www.proxy.afeezadeboye.site`)"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       - "traefik.http.services.traefik-http.loadbalancer.server.port=8080"
@@ -117,7 +117,7 @@ services:
       - "traefik.http.middlewares.www-to-non-www.redirectregex.replacement=https://$1"
       - "traefik.http.middlewares.www-to-non-www.redirectregex.permanent=true"
       # HTTPS Router
-      - "traefik.http.routers.traefik-https.rule=Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`)"
+      - "traefik.http.routers.traefik-https.rule=Host(`proxy.afeezadeboye.site`) || Host(`www.proxy.afeezadeboye.site`)"
       - "traefik.http.routers.traefik-https.entrypoints=websecure"
       - "traefik.http.routers.traefik-https.entrypoints=websecure"
       - "traefik.http.routers.traefik-https.service=api@internal"
