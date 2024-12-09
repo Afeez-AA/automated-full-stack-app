@@ -29,7 +29,7 @@ services:
     labels:
       - "traefik.enable=true"
       # HTTP Router
-      - "traefik.http.routers.frontend-http.rule=(Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`))"
+      - "traefik.http.routers.frontend-http.rule=(Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`))"
       - "traefik.http.routers.frontend-http.entrypoints=web"
       - "traefik.http.services.frontend.loadbalancer.server.port=5173"
       # www to non-www redirect
@@ -89,7 +89,7 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedByDefault=false"
       - "--api"
-      - "--certificatesresolvers.letsencryptresolver.acme.email={{ cert_email }}"
+      - "--certificatesresolvers.letsencryptresolver.acme.email=afeezadeboyee@gamil.com"
       - "--certificatesresolvers.letsencryptresolver.acme.storage=/acme.json"
       - "--certificatesresolvers.letsencryptresolver.acme.tlschallenge=true"
       - "--accesslog=true"
