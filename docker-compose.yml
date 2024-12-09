@@ -5,13 +5,13 @@ services:
     labels:
       - traefik.enable=true
       # HTTP Router
-      - "traefik.http.routers.backend-http.rule=((Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`)) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`)))"
+      - "traefik.http.routers.backend-http.rule=((Host(`{{frontend_domain}}`) || Host(`www.{{frontend_domain}}`)) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`)))"
       - "traefik.http.routers.backend-http.entrypoints=web"
       - "traefik.http.services.backend-http.loadbalancer.server.port=8000"
       # www to non-www redirect
       - "traefik.http.routers.backend-https.middlewares=www-to-non-www"
       # HTTPS Router
-      - "traefik.http.routers.backend-https.rule=(Host(`{{ frontend_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`)))"
+      - "traefik.http.routers.backend-https.rule=(Host(`{{frontend_domain}}`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`)))"
       - "traefik.http.routers.backend-https.entrypoints=websecure"
       - "traefik.http.routers.backend-https.tls.certresolver=letsencryptresolver"
     ports:
@@ -29,13 +29,13 @@ services:
     labels:
       - "traefik.enable=true"
       # HTTP Router
-      - "traefik.http.routers.frontend-http.rule=(Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`))"
+      - "traefik.http.routers.frontend-http.rule=(Host(`{{frontend_domain}}`) || Host(`www.{{frontend_domain}}`))"
       - "traefik.http.routers.frontend-http.entrypoints=web"
       - "traefik.http.services.frontend.loadbalancer.server.port=5173"
       # www to non-www redirect
       - "traefik.http.routers.frontend-https.middlewares=www-to-non-www"
       # HTTPS Router
-      - "traefik.http.routers.frontend-https.rule=(Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`))"
+      - "traefik.http.routers.frontend-https.rule=(Host(`{{frontend_domain}}`) || Host(`www.{{frontend_domain}}`))"
       - "traefik.http.routers.frontend-https.entrypoints=websecure"
       - "traefik.http.routers.frontend-https.tls.certresolver=letsencryptresolver"
       - "traefik.http.routers.frontend-https.service=frontend" # optional
@@ -68,7 +68,7 @@ services:
     labels:
       - traefik.enable=true
       # HTTP Router
-      - "traefik.http.routers.adminer-http.rule=Host(`db.{{ frontend_domain }}`) || Host(`www.db.{{ frontend_domain }}`)"
+      - "traefik.http.routers.adminer-http.rule=Host(`db.{{frontend_domain}}`) || Host(`www.db.{{frontend_domain}}`)"
       - "traefik.http.routers.adminer-http.entrypoints=web"
       - "traefik.http.services.adminer.loadbalancer.server.port=8080"
       # www to non-www redirect
@@ -106,7 +106,7 @@ services:
     labels:
       - "traefik.enable=true"
       # HTTP Router
-      - "traefik.http.routers.traefik-http.rule=Host(`proxy.{{ frontend_domain }}`) || Host(`www.proxy.{{ frontend_domain }}`)"
+      - "traefik.http.routers.traefik-http.rule=Host(`proxy.{{frontend_domain}}`) || Host(`www.proxy.{{frontend_domain}}`)"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       - "traefik.http.services.traefik-http.loadbalancer.server.port=8080"
@@ -117,7 +117,7 @@ services:
       - "traefik.http.middlewares.www-to-non-www.redirectregex.replacement=https://$1"
       - "traefik.http.middlewares.www-to-non-www.redirectregex.permanent=true"
       # HTTPS Router
-      - "traefik.http.routers.traefik-https.rule=Host(`proxy.{{ frontend_domain }}`) || Host(`www.proxy.{{ frontend_domain }}`)"
+      - "traefik.http.routers.traefik-https.rule=Host(`proxy.{{frontend_domain}}`) || Host(`www.proxy.{{frontend_domain}}`)"
       - "traefik.http.routers.traefik-https.entrypoints=websecure"
       - "traefik.http.routers.traefik-https.entrypoints=websecure"
       - "traefik.http.routers.traefik-https.service=api@internal"
