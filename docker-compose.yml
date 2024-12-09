@@ -35,7 +35,7 @@ services:
       # www to non-www redirect
       - "traefik.http.routers.frontend-https.middlewares=www-to-non-www"
       # HTTPS Router
-      - "traefik.http.routers.frontend-https.rule=(Host(`afeezadebote.site`) || Host(`www.afeezadeboye.site`))"
+      - "traefik.http.routers.frontend-https.rule=(Host(`afeezadeboye.site`) || Host(`www.afeezadeboye.site`))"
       - "traefik.http.routers.frontend-https.entrypoints=websecure"
       - "traefik.http.routers.frontend-https.tls.certresolver=letsencryptresolver"
       - "traefik.http.routers.frontend-https.service=frontend" # optional
