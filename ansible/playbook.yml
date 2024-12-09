@@ -1,5 +1,5 @@
 ---
-- name: Set up the server for Docker and docker compose installation, files setup, and application/monitoring setup
+- name: Setting up application and monitoring servers
   hosts: all
   become: yes
   roles:
