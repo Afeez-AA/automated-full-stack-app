@@ -4,7 +4,7 @@ services:
     container_name: grafana
     restart: unless-stopped
     environment:
-      - GF_SERVER_DOMAIN={{ frontend_domain }}
+      - GF_SERVER_DOMAIN={{ domain_name }}
       - GF_SERVER_ROOT_URL=%(protocol)s://%(domain)s/grafana
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
       - GF_AUTH_PROXY_ENABLED=false
@@ -27,12 +27,12 @@ services:
       # HTTP Service
       - traefik.http.services.grafana.loadbalancer.server.port=3000 # important
       # HTTP Router
-      - traefik.http.routers.grafana-http.rule=((Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`)) && PathPrefix(`/grafana`))
+      - traefik.http.routers.grafana-http.rule=((Host(`{{ domain_name }}`) || Host(`www.{{ domain_name }}`)) && PathPrefix(`/grafana`))
       - traefik.http.routers.grafana-http.entrypoints=web
       # HTTP to HTTPS redirect
       - traefik.http.routers.grafana-https.middlewares=www-to-non-www
       # HTTPS Router
-      - traefik.http.routers.grafana-https.rule=((Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`)) && PathPrefix(`/grafana`))
+      - traefik.http.routers.grafana-https.rule=((Host(`{{ domain_name }}`) || Host(`www.{{ domain_name }}`)) && PathPrefix(`/grafana`))
       - traefik.http.routers.grafana-https.entrypoints=websecure
       - traefik.http.routers.grafana-https.tls.certresolver=letsencryptresolver
       - traefik.http.routers.grafana-https.service=grafana # optional
@@ -44,8 +44,8 @@ services:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--web.external-url=/prometheus'
       - '--web.route-prefix=/prometheus'
-    ports:
-      - "9090:9090"
+    expose:
+      - "9090"
     restart: unless-stopped
     volumes:
       - ./prometheus:/etc/prometheus 
@@ -59,12 +59,12 @@ services:
       # HTTP Service
       - traefik.http.services.prometheus.loadbalancer.server.port=9090 # important
       # HTTP Router
-      - traefik.http.routers.prometheus-http.rule=((Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`)) && PathPrefix(`/prometheus`))
+      - traefik.http.routers.prometheus-http.rule=((Host(`{{ domain_name }}`) || Host(`www.{{ domain_name }}`)) && PathPrefix(`/prometheus`))
       - traefik.http.routers.prometheus-http.entrypoints=web
       # www to non-www redirect
       - traefik.http.routers.prometheus-https.middlewares=www-to-non-www
       # HTTPS Router
-      - traefik.http.routers.prometheus-https.rule=((Host(`{{ frontend_domain }}`) || Host(`www.{{ frontend_domain }}`)) && PathPrefix(`/prometheus`))
+      - traefik.http.routers.prometheus-https.rule=((Host(`{{ domain_name }}`) || Host(`www.{{ domain_name }}`)) && PathPrefix(`/prometheus`))
       - traefik.http.routers.prometheus-https.entrypoints=websecure
       - traefik.http.routers.prometheus-https.tls.certresolver=letsencryptresolver
       - traefik.http.routers.prometheus-https.service=prometheus # optional
@@ -72,8 +72,8 @@ services:
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:latest
     container_name: cadvisor
-    ports:
-      - "8083:8080"  
+    expose:
+      - "8080"  
     volumes:
       - /:/rootfs:ro
       - /var/run:/var/run:rw
@@ -89,8 +89,8 @@ services:
     volumes:
       - ./loki-config.yaml:/mnt/config/loki-config.yaml
       - ./data:/tmp/loki
-    ports:
-      - "3100:3100"
+    expose:
+      - "3100"
     command: -config.file=/mnt/config/loki-config.yaml
     networks:
       - shared-network

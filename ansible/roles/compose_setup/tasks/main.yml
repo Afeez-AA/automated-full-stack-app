@@ -2,12 +2,12 @@
 - name: Bring up the application stack
   command: docker compose up -d
   args:
-    chdir: "/opt/automated-full-stack-app"
+    chdir: "{{ app_dir }}"
 
 - name: Bring up the monitoring stack
   command: docker compose -f monitoring-stack.yml up -d
   args:
-    chdir: "/opt/automated-full-stack-app"
+    chdir: "{{ app_dir }}"
 
 
 

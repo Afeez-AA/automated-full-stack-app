@@ -14,8 +14,8 @@ services:
       - "traefik.http.routers.backend-https.rule=(Host(`{{ frontend_domain }}`) && (PathPrefix(`/api`) || PathPrefix(`/redoc`) || PathPrefix(`/docs`)))"
       - "traefik.http.routers.backend-https.entrypoints=websecure"
       - "traefik.http.routers.backend-https.tls.certresolver=letsencryptresolver"
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     depends_on:
       - db
     env_file:
@@ -39,8 +39,8 @@ services:
       - "traefik.http.routers.frontend-https.entrypoints=websecure"
       - "traefik.http.routers.frontend-https.tls.certresolver=letsencryptresolver"
       - "traefik.http.routers.frontend-https.service=frontend" # optional
-    ports:
-      - "5173:5173"
+    expose:
+      - "5173"
     env_file:
       - ./frontend/.env
     networks:
@@ -49,8 +49,8 @@ services:
   db:
     image: postgres:latest
     container_name: postgres_db
-    ports:
-      - "5432:5432"
+    expose:
+      - "5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     env_file:
@@ -61,20 +61,20 @@ services:
   adminer:
     image: adminer
     container_name: adminer-service
-    ports:
-      - "8080:8080"
+    expose:
+      - "8080"
     networks:
       - shared-network
     labels:
       - traefik.enable=true
       # HTTP Router
-      - "traefik.http.routers.adminer-http.rule=Host(`db.{{ frontend_domain }}`) || Host(`www.db.{{ frontend_domain }}`)"
+      - "traefik.http.routers.adminer-http.rule=Host(`{{ db_domain }}`) || Host(`www.{{ db_domain }}`)"
       - "traefik.http.routers.adminer-http.entrypoints=web"
       - "traefik.http.services.adminer.loadbalancer.server.port=8080"
       # www to non-www redirect
       - "traefik.http.routers.adminer-https.middlewares=www-to-non-www"
       # HTTPS Router
-      - "traefik.http.routers.adminer-https.rule=Host(`db.{{  frontend_domain  }}`) || Host(www.db.{{  frontend_domain  }}`)"
+      - "traefik.http.routers.adminer-https.rule=Host(`{{ db_domain }}`) || Host(`www.{{ db_domain }}`)"
       - "traefik.http.routers.adminer-https.entrypoints=websecure"
       - "traefik.http.routers.adminer-https.tls.certresolver=letsencryptresolver"
 
@@ -106,7 +106,7 @@ services:
     labels:
       - "traefik.enable=true"
       # HTTP Router
-      - "traefik.http.routers.traefik-http.rule=Host(`proxy.{{ frontend_domain }}`) || Host(`www.proxy.{{ frontend_domain }}`)"
+      - "traefik.http.routers.traefik-http.rule=Host(`{{ traefik_domain }}`) || Host(`www.{{ traefik_domain }}`)"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       - "traefik.http.routers.traefik-http.entrypoints=web"
       - "traefik.http.services.traefik-http.loadbalancer.server.port=8080"
@@ -117,7 +117,7 @@ services:
       - "traefik.http.middlewares.www-to-non-www.redirectregex.replacement=https://$1"
       - "traefik.http.middlewares.www-to-non-www.redirectregex.permanent=true"
       # HTTPS Router
-      - "traefik.http.routers.traefik-https.rule=Host(`proxy.{{ frontend_domain }}`) || Host(`www.proxy.{{ frontend_domain }}`)"
+      - "traefik.http.routers.traefik-https.rule=Host(`{{ traefik_domain }}`) || Host(`www.{{ traefik_domain }}`)"
       - "traefik.http.routers.traefik-https.entrypoints=websecure"
       - "traefik.http.routers.traefik-https.entrypoints=websecure"
       - "traefik.http.routers.traefik-https.service=api@internal"
