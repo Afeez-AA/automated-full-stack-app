@@ -55,3 +55,15 @@
     src: "frontend_env_template.j2"
     dest: "{{ app_dir }}/frontend/.env"
     mode: '0644'
+
+- name: Configure application compose file using template
+  template:
+    src: "docker_compose_template.j2"
+    dest: "{{ app_dir }}/docker-compose.yml"
+    mode: '0644'
+
+- name: Configure monitoring compose file using template
+  template:
+    src: "monitoring_stack_template.j2"
+    dest: "{{ app_dir }}/monitoring-stack.yml"
+    mode: '0644'
